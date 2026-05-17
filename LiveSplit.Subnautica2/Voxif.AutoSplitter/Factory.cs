@@ -6,9 +6,9 @@ using System.Reflection;
 
 namespace LiveSplit.Subnautica2 {
     public class Factory : IComponentFactory {
-        public string ComponentName => "Subnautica2 2 Autosplitter";
+        public string ComponentName => "Subnautica 2 Autosplitter";
 
-        public string Description => "Autosplitter for Subnautica2 2";
+        public string Description => "Autosplitter for Subnautica 2";
 
         public ComponentCategory Category => ComponentCategory.Control;
 
@@ -16,7 +16,7 @@ namespace LiveSplit.Subnautica2 {
 
         public string XMLURL => UpdateURL + "Components/Subnautica2.Updates.xml";
 
-        public string UpdateURL => "https://raw.githubusercontent.com/Sprinter31/Subnautica2_Autosplitter/LiveSplit.Subnautica2-voxif/";
+        public string UpdateURL => "https://raw.githubusercontent.com/Sprinter31/LiveSplit.Subnautica2/master/";
 
         public Version Version => ExAssembly.GetName().Version;
 

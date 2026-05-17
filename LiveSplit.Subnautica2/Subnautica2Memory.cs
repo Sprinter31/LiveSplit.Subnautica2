@@ -16,16 +16,12 @@ namespace LiveSplit.Subnautica2
 {
     public class Subnautica2Memory : Memory
     {
-        protected override string[] ProcessNames => new string[] { "Subnautica2" };
+        protected override string[] ProcessNames => new string[] { "Subnautica2-Win64-Shipping.exe" };
 
         public Subnautica2Split CurrentSplitToCheck { get; set; }
 
         public bool startedTimerBefore = false;
         public bool isInMainMenu = false;
-        private readonly Stopwatch _duringLoad = new Stopwatch();
-        private readonly Stopwatch _afterLoad = new Stopwatch();
-        private int prePortalDelayMs = 0;
-        private int postPortalDelayMs = 0;
         private const int maxInventoryTimeWithoutChangingMs = 1000;
         public bool pointersInitialized;
         public GameVersion gameVersion;

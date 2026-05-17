@@ -28,7 +28,7 @@ namespace LiveSplit.Subnautica2
 #endif
             logger.StartLogger();
 
-            Localization.Load();
+            //Localization.Load();
             _state = state;
             settings = new Subnautica2Settings(state);
             memory = new Subnautica2Memory(state, this, logger, settings);

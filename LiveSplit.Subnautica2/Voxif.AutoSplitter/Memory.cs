@@ -49,7 +49,7 @@ namespace Voxif.AutoSplitter {
                         if (p.HasExited)
                             continue;
 
-                        if (!p.MainModule.FileName.EndsWith("Subnautica2.exe", StringComparison.OrdinalIgnoreCase))
+                        if (!p.MainModule.FileName.EndsWith("Subnautica2-Win64-Shipping.exe", StringComparison.OrdinalIgnoreCase))
                             continue;
 
                         var wrapper = new TickableProcessWrapper(p);
