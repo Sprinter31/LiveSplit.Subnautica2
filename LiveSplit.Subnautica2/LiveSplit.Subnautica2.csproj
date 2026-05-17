@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -41,7 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\Biome.cs" />
+    <Compile Include="Enums\Craftable.cs" />
+    <Compile Include="Enums\EncyEntry.cs" />
     <Compile Include="Enums\GameVersion.cs" />
+    <Compile Include="Enums\InventoryItem.cs" />
+    <Compile Include="Enums\TechType.cs" />
+    <Compile Include="Enums\Unlockable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

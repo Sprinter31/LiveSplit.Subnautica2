@@ -15,13 +15,13 @@ namespace LiveSplit.Subnautica2.Settings
             if (!isSubCondition)
             {
                 items.Add(new SplitType { Text = "Prefabricated", Func = settings.CreatePrefabSplit });
-                items.Add(new SplitType { Text = "Craft", Func = settings.CreateCraftSplit });
+                //items.Add(new SplitType { Text = "Craft", Func = settings.CreateCraftSplit });
             }
 
-            items.Add(new SplitType { Text = "Inventory", Func = settings.CreateItemSplit });
-            items.Add(new SplitType { Text = "Blueprint", Func = settings.CreateBlueprintSplit });
-            items.Add(new SplitType { Text = "Encyclopedia", Func = settings.CreateEncySplit });
-            items.Add(new SplitType { Text = "Biome", Func = settings.CreateBiomeSplit });
+            //items.Add(new SplitType { Text = "Inventory", Func = settings.CreateItemSplit });
+            //items.Add(new SplitType { Text = "Blueprint", Func = settings.CreateBlueprintSplit });
+            //items.Add(new SplitType { Text = "Encyclopedia", Func = settings.CreateEncySplit });
+            //items.Add(new SplitType { Text = "Biome", Func = settings.CreateBiomeSplit });
 
             cboSplitType.DisplayMember = nameof(SplitType.Text);
             cboSplitType.ValueMember = nameof(SplitType.Func);

@@ -1,7 +1,7 @@
 ﻿namespace LiveSplit.Subnautica2.Enums
 {
-    public enum GameVersion
+    public enum InventoryItem
     {
-        v113109,
+        None,
     }
 }

@@ -15,6 +15,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using Voxif.AutoSplitter;
+using LiveSplit.Subnautica2.Enums;
 
 namespace LiveSplit.Subnautica2
 {

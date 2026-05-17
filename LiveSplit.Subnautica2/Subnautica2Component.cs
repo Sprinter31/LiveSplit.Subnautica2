@@ -37,8 +37,6 @@ namespace LiveSplit.Subnautica2
 
         public override bool Update()
         {
-            UpdateExploTime();
-
             bool ok;
 
             try

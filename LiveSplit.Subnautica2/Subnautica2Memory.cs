@@ -89,7 +89,7 @@ namespace LiveSplit.Subnautica2
             switch (moduleLen)
             {
                 default:
-                    gameVersion = GameVersion.113109;
+                    gameVersion = GameVersion.v113109;
                     MessageBox.Show($"Module length {moduleLen} does not match a version, defaulting to most recent (113109)",
                                     "Subnautica2 Autosplitter",
                                     MessageBoxButtons.OK,
@@ -149,6 +149,7 @@ namespace LiveSplit.Subnautica2
                 return true;
             else
                 return false;*/
+            return false;
         }
 
         public bool ShouldPause()

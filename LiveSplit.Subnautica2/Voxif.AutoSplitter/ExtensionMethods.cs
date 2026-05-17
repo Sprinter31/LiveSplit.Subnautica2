@@ -1,4 +1,5 @@
 ﻿using LiveSplit.Subnautica2;
+using LiveSplit.Subnautica2.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
