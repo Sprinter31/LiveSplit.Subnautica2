@@ -1,0 +1,10 @@
+.vs/
+
+Livesplit.Subnautica/bin/
+Livesplit.Subnautica/obj/
+Livesplit.Subnautica/External/
+
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
