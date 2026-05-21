@@ -106,7 +106,7 @@ namespace Voxif.Helpers.MemoryScan {
                     IntPtr result = scanner.Scan(kvpHolders.Value);
                     if(result != default) {
                         Log(kvpHolders.Key + " Found at " + result.ToString("X"));
-                        //scansResult[moduleTargets.Key][kvpHolders.Key] = result;
+                        scansResult[moduleTargets.Key][kvpHolders.Key] = result;
                     }
                 }
             }

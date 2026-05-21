@@ -186,6 +186,8 @@
     <Compile Include="Voxif.AutoSplitter\NativeMethods.cs" />
     <Compile Include="Voxif.Helpers\HelperTask.cs" />
     <Compile Include="Voxif.Helpers\ScanHelper.cs" />
+    <Compile Include="Voxif.Helpers\UnrealHelper.cs" />
+    <Compile Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\UnrealNestedPointer.cs" />
     <Compile Include="Voxif.Helpers\Voxif.Helpers.MemoryHelper\MemoryHelper.cs" />
     <Compile Include="Voxif.Helpers\Voxif.Helpers.StructReflector\StructReflector.cs" />
     <Compile Include="Voxif.Helpers\Voxif.Helpers.Unity\MonoNestedPointer.cs" />
@@ -251,6 +253,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_0.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_8.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_11.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_13.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_14.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_18.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_20.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_22.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_23.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal4_25.txt" />
+    <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.UnrealHelper\Unreal5_0.txt" />
     <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.Unity\Il2cpp_2019.txt" />
     <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.Unity\Il2cpp_Base.txt" />
     <EmbeddedResource Include="Voxif.Helpers\Voxif.Helpers.Unity\Mono_v1.txt" />

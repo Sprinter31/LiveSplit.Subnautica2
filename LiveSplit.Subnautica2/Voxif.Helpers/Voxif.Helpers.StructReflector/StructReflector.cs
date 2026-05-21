@@ -11,9 +11,9 @@ namespace Voxif.Helpers.StructReflector {
         private static ReflectedList Prepare(string resourcePath, ReflectedList refListSource = null) {
             ReflectedList refListDest = refListSource ?? new ReflectedList();
 
-            Assembly assembly = Assembly.GetExecutingAssembly();            
+            Assembly assembly = Assembly.GetExecutingAssembly();
 
-            using (StreamReader reader = new StreamReader(assembly.GetManifestResourceStream("LiveSplit.Subnautica2.Voxif.Helpers.Voxif.Helpers.Unity." + resourcePath + ".txt"))) {
+            using (StreamReader reader = new StreamReader(OpenResource(assembly, resourcePath))) {
 
                 string baseVersion = reader.ReadLine();
                 if(!String.IsNullOrEmpty(baseVersion)) {
@@ -84,6 +84,30 @@ namespace Voxif.Helpers.StructReflector {
                 }
             }
             return refListDest;
+        }
+
+        private static Stream OpenResource(Assembly assembly, string resourcePath) {
+            string resourceFile = resourcePath + ".txt";
+            string[] candidates = {
+                "LiveSplit.Subnautica2.Voxif.Helpers.Voxif.Helpers.Unity." + resourceFile,
+                "LiveSplit.Subnautica2." + resourceFile
+            };
+
+            foreach(string candidate in candidates) {
+                Stream stream = assembly.GetManifestResourceStream(candidate);
+                if(stream != null) {
+                    return stream;
+                }
+            }
+
+            string suffix = "." + resourceFile;
+            foreach(string resourceName in assembly.GetManifestResourceNames()) {
+                if(resourceName.EndsWith(suffix, StringComparison.Ordinal)) {
+                    return assembly.GetManifestResourceStream(resourceName);
+                }
+            }
+
+            throw new FileNotFoundException("Could not find embedded struct resource: " + resourcePath);
         }
 
         public static IStructReflector Load(string resourcePath, int pointerSize, Dictionary<string, TypeMemoryRule> alignmentRules = null) {            

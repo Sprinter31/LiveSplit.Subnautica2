@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using Voxif.AutoSplitter;
 using Voxif.Helpers.Unity;
+using Voxif.Helpers.Unreal;
 using Voxif.IO;
 using Voxif.Memory;
 
@@ -16,7 +17,7 @@ namespace LiveSplit.Subnautica2
 {
     public class Subnautica2Memory : Memory
     {
-        protected override string[] ProcessNames => new string[] { "Subnautica2-Win64-Shipping.exe" };
+        protected override string[] ProcessNames => new string[] { "Subnautica2-Win64-Shipping" };
 
         public Subnautica2Split CurrentSplitToCheck { get; set; }
 
@@ -32,18 +33,38 @@ namespace LiveSplit.Subnautica2
         private readonly Subnautica2Settings settings;
 
         #region Pointer stuff
-        
+        private UnrealNestedPointerFactory pointerFactory;
+        private Pointer<float> gameDurationSeconds;
+        private Pointer<float> sessionDurationSeconds;
+        private Pointer<float> oxygenCurrentValue;
+        private Pointer<float> oxygenMaxValue;
+        private DateTime nextGameplayTimeProbeLog = DateTime.MinValue;
+
         #endregion
+
+        UnrealHelperTask unrealTask;
 
         public Subnautica2Memory(LiveSplitState state, Subnautica2Component component, Logger logger, Subnautica2Settings settings) : base(logger)
         {            
             OnHook += () =>
             {
                 GetGameVersion();
+                unrealTask = new UnrealHelperTask(game, logger);
+                unrealTask.Run(Version.Parse("5.0.0"), InitPointers);
             };
 
             OnExit += () => {
-                
+                if (unrealTask != null)
+                {
+                    pointersInitialized = false;
+                    pointerFactory = null;
+                    gameDurationSeconds = null;
+                    sessionDurationSeconds = null;
+                    oxygenCurrentValue = null;
+                    oxygenMaxValue = null;
+                    unrealTask.Dispose();
+                    unrealTask = null;
+                }
             };
 
             this.settings = settings;
@@ -84,6 +105,9 @@ namespace LiveSplit.Subnautica2
             int moduleLen = firstModule.ModuleMemorySize;
             switch (moduleLen)
             {
+                case 232562688:
+                    gameVersion = GameVersion.v113109;
+                    break;
                 default:
                     gameVersion = GameVersion.v113109;
                     MessageBox.Show($"Module length {moduleLen} does not match a version, defaulting to most recent (113109)",
@@ -94,8 +118,16 @@ namespace LiveSplit.Subnautica2
             }
         }
 
-        private void InitPointers()
+        private void InitPointers(IUnrealHelper unrealHelper)
         {
+            logger.Log("Unreal helper initialized; running diagnostics");
+            unrealHelper.LogDiagnostics();
+            logger.Log("Unreal diagnostics finished");
+
+            pointerFactory = new UnrealNestedPointerFactory(game, unrealHelper);
+            InitGameplayTimeProbe(unrealHelper);
+            InitOxygenProbe(unrealHelper);
+
             #region Memory Watchers
             switch (gameVersion)
             {
@@ -111,7 +143,70 @@ namespace LiveSplit.Subnautica2
 
         private void UpdateMemoryWatchers()
         {
-            
+            if (oxygenCurrentValue != null)
+            {
+                try
+                {
+                    float oxygen = oxygenCurrentValue.New;
+                    float maxOxygen = oxygenMaxValue?.New ?? 0f;
+                    logger.Log($"Oxygen tick: CurrentValue={oxygen:F1}, MaxValue={maxOxygen:F1}");
+                }
+                catch (Exception ex)
+                {
+                    logger.Log($"Oxygen probe failed: {ex.Message}");
+                    oxygenCurrentValue = null;
+                    oxygenMaxValue = null;
+                }
+            }
+
+            if (gameDurationSeconds == null)
+                return;
+
+            try
+            {
+                float gameDuration = gameDurationSeconds.New;
+                float sessionDuration = sessionDurationSeconds?.New ?? 0f;
+
+                if (DateTime.Now >= nextGameplayTimeProbeLog)
+                {
+                    logger.Log($"Gameplay time probe: GameDurationSeconds={gameDuration:F1}, SessionDurationSeconds={sessionDuration:F1}");
+                    nextGameplayTimeProbeLog = DateTime.Now.AddSeconds(5);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Log($"Gameplay time probe failed: {ex.Message}");
+                gameDurationSeconds = null;
+                sessionDurationSeconds = null;
+            }
+        }
+
+        private void InitGameplayTimeProbe(IUnrealHelper unrealHelper)
+        {
+            try
+            {
+                gameDurationSeconds = pointerFactory.Make<float>("UWEGameplayTimeComponent", "GameDurationSeconds");
+                sessionDurationSeconds = pointerFactory.Make<float>("UWEGameplayTimeComponent", "SessionDurationSeconds");
+                logger.Log($"Gameplay time probe initialized through Unreal pointer factory: GameDurationSeconds={gameDurationSeconds.New:F1}, SessionDurationSeconds={sessionDurationSeconds.New:F1}");
+            }
+            catch (Exception ex)
+            {
+                logger.Log($"Gameplay time probe not initialized: {ex.Message}");
+            }
+        }
+
+        private void InitOxygenProbe(IUnrealHelper unrealHelper)
+        {
+            try
+            {
+                oxygenCurrentValue = pointerFactory.Make<float>("SN2PlayerOxygenViewModel", "CurrentValue");
+                oxygenMaxValue = pointerFactory.Make<float>("SN2PlayerOxygenViewModel", "MaxValue");
+                logger.Log($"Oxygen probe initialized through Unreal pointer factory: CurrentValue={oxygenCurrentValue.New:F1}, MaxValue={oxygenMaxValue.New:F1}");
+            }
+            catch (Exception ex)
+            {
+                logger.Log($"Oxygen probe not initialized: {ex.Message}");
+            }
         }
 
         private bool Needs(params SplitName[] required)

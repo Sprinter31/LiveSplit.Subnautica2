@@ -1,5 +1,9 @@
 .vs/
 
+# Build output
+[Bb]in/
+[Oo]bj/
+
 Livesplit.Subnautica/bin/
 Livesplit.Subnautica/obj/
 Livesplit.Subnautica/External/
